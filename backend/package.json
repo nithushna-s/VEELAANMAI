@@ -20,7 +20,8 @@
     "passport-local": "^1.0.0",
     "rs": "^0.0.1",
     "stripe": "^14.16.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "vercel": "^33.5.5"
   },
   "name": "backend",
   "version": "1.0.0",

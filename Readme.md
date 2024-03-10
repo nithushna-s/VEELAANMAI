@@ -1,14 +1,15 @@
 # frontend
 
 ##  components
-   * admin
+
+   - admin
     1. user deta 
     2. land data 
     3. all land request 
     4. Dashboard
     5. payment list 
 
-    * home 
+    - home 
     1. navbar .jsx
     2. footer.jsx
     3. hero imge .jsx
@@ -16,17 +17,17 @@
     5. home..jsx 
     6. contact .jsx
 
-    * signin-signup
+    - signin-signup
     1. signup
     2. signin
 
-    * landsection
+    - landsection
     1. AgrilandsSection.jsx
     2. AgrilandDetail .jsx
     3. RentalForm.jsx
     4. SalesForm.jsx
 
-    * post-land-ad
+    - post-land-ad
     1. AdPostingPage.jsx
     2. PostAdForm.jsx
     3. Payment.jsx
@@ -35,17 +36,17 @@
 
 # backend 
 
-   * 2 middlewares 
+   - 2 middlewares 
     erorr and auth
 
-   * models 
+   - models 
      5 
 
-   * controllers 
+   - controllers 
       8
 
-   *  routes 
+   -  routes 
    one route for each controllers
 
-    * config file
+    - config file
     
