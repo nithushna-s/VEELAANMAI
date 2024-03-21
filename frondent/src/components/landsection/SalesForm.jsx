@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faCheck, faTimesCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const SalesForm = ({ landId, onCloseModal }) => {
   const [salesData, setSalesData] = useState({
@@ -14,22 +14,29 @@ const SalesForm = ({ landId, onCloseModal }) => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({
+    name: false,
+    email: false,
+    phoneNumber: false,
+  });
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateInputs()) {
+      return;
+    }
+
     setIsLoading(true);
 
     try {
       await axios.post(`http://localhost:7001/api/lands/${landId}/sales`, salesData);
       toast.success('Sales form submitted successfully!');
-      setIsSuccess(true);
       setTimeout(() => {
         onCloseModal();
       }, 1000);
     } catch (error) {
       toast.error(`Error submitting sales form: ${error.message}`);
-      setIsSuccess(false);
     } finally {
       setIsLoading(false);
     }
@@ -41,6 +48,46 @@ const SalesForm = ({ landId, onCloseModal }) => {
       ...prevData,
       [name]: value,
     }));
+
+    // Clear validation error for the input being changed
+    setValidationErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: false,
+    }));
+  };
+
+  const validateInputs = () => {
+    const nameRegex = /^[a-zA-Z\s]{1,15}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{9,10}$/;
+
+    let isValid = true;
+
+    if (!nameRegex.test(salesData.name)) {
+      setValidationErrors((prevErrors) => ({
+        ...prevErrors,
+        name: true,
+      }));
+      isValid = false;
+    }
+
+    if (!emailRegex.test(salesData.email)) {
+      setValidationErrors((prevErrors) => ({
+        ...prevErrors,
+        email: true,
+      }));
+      isValid = false;
+    }
+
+    if (!phoneRegex.test(salesData.phoneNumber)) {
+      setValidationErrors((prevErrors) => ({
+        ...prevErrors,
+        phoneNumber: true,
+      }));
+      isValid = false;
+    }
+
+    return isValid;
   };
 
   return (
@@ -53,12 +100,13 @@ const SalesForm = ({ landId, onCloseModal }) => {
       <form onSubmit={handleFormSubmit} style={{ padding: '10px', fontFamily: 'Raleway' }}>
         <h4>Land Sale Request</h4>
         <label>
-          Name:
+           Full Name:
           <input
             type="text"
             name="name"
             value={salesData.name}
             onChange={handleInputChange}
+            style={{ borderColor: validationErrors.name ? 'red' : 'initial' }}
           />
         </label>
         <label>
@@ -77,6 +125,7 @@ const SalesForm = ({ landId, onCloseModal }) => {
             name="email"
             value={salesData.email}
             onChange={handleInputChange}
+            style={{ borderColor: validationErrors.email ? 'red' : 'initial' }}
           />
         </label>
         <label>
@@ -86,14 +135,17 @@ const SalesForm = ({ landId, onCloseModal }) => {
             name="phoneNumber"
             value={salesData.phoneNumber}
             onChange={handleInputChange}
+            style={{ borderColor: validationErrors.phoneNumber ? 'red' : 'initial' }}
           />
         </label>
-        <button type="submit" className="btn" style={{ background:'#0A3C50'}}>
-          Submit 
+        <button 
+          type="submit" 
+          className="btn" 
+          disabled={isLoading} 
+        >
+          {isLoading ? <FontAwesomeIcon icon={faSpinner} spin /> : 'Submit'}
         </button>
-        {isLoading && <FontAwesomeIcon icon={faSpinner} spin />}
-        {!isLoading && isSuccess && <FontAwesomeIcon icon={faCheck} style={{ color:'green'}}/>}
-        {!isLoading && !isSuccess && <FontAwesomeIcon icon={faTimesCircle} style={{color:'red'}}/>}
+
       </form>
       <ToastContainer />
     </>

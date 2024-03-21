@@ -19,10 +19,10 @@ const AdminSalesList = () => {
   }, []);
 
   return (
-    <div>
+    <div class="table-responsive ">
       <h2 style={{textAlign:'center',color:'#137077',marginTop:'8%'}}>All Sales Details</h2>
-      <table>
-        <thead>
+      <table class="table table-bordered table-hover " style={{width:'70%',marginLeft:'15%'}}>
+        <thead className='table-light'>
           <tr>
             <th>Number</th>
             <th>Sales-ID</th>

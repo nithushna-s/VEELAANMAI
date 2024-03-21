@@ -17,13 +17,12 @@ const authMiddleware = async (req, res, next) => {
       return res.status(401).json({ error: "Unauthorized - Invalid token" });
     }
 
-    if (!user.isAdmin) {
-      return res
-        .status(403)
-        .json({ error: "Forbidden - Admin access required" });
+    if (user.role !== "admin") { // Check if the user's role is not admin
+      return res.status(403).json({ error: "Forbidden - Admin access required" });
     }
 
-    req.isAdmin = true;
+    // Remove this line as isAdmin is not defined
+    // req.isAdmin = true;
 
     next();
   } catch (error) {

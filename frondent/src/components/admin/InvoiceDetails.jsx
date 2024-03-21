@@ -28,20 +28,13 @@ const PaymentDetails = () => {
   }, []);
 
   return (
-    <div>
+    <div class="table-responsive ">
       <h1 style={{textAlign:'center',color:'#137077',marginTop:'8%'}}>All Payment Details</h1>
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <table
-          style={{
-            width: "60%",
-            borderCollapse: "collapse",
-            marginLeft: "20%",
-            marginTop: "2%",
-          }}
-        >
-          <thead>
+        <table class="table table-bordered table-hover " style={{width:'75%',marginLeft:'13%'}}>
+        <thead className='table-light'>
             <tr>
               <th style={tableHeaderStyle}>Invoice No</th>
               <th style={tableHeaderStyle}>Land-ID</th>

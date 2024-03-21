@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const moment = require("moment");
 const bcrypt = require("bcrypt");
+
 const userSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isAdmin: { type: Boolean, default: false },
+    role: { type: String, enum: ["user", "admin"], default: "user" }, 
     timestamp: {
       type: String,
       default: () => moment().format("YYYY-MM-DD HH.mmA"),
@@ -18,7 +19,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Hash password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
@@ -28,7 +28,6 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Method to compare passwords
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

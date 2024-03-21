@@ -21,7 +21,7 @@ const sendEmail = async (to, subject, text, html) => {
   });
 
   const mailOptions = {
-    from: "sivarasanithushna@gmail.com",
+    from:process.env.GMAIL_USER,
     to,
     subject,
     text,
@@ -78,6 +78,8 @@ exports.createPayment = async (req, res) => {
   }
 };
 
+
+
 exports.createLand = async (req, res) => {
   try {
     const { image, ...landData } = req.body;
@@ -86,12 +88,20 @@ exports.createLand = async (req, res) => {
       folder: "fieldlinker",
     });
 
+    const maxindex = await Land.findOne({}, {}, { sort: { index: -1 } });
+
+    let currentIndex = 1;
+    if (maxindex) {
+      currentIndex = maxindex.index + 1;
+    }
+
     const land = new Land({
       ...landData,
       image: {
         public_id: result.public_id,
         url: result.secure_url,
       },
+      index: currentIndex,
       pay: "pending",
     });
 

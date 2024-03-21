@@ -34,7 +34,7 @@ const PaymentSuccessPage = () => {
         <img
           src={storedLandImage}
           alt="Land Image"
-          style={{ maxWidth: "100%", height: "auto" ,paddingLeft:'13%'}}
+          style={{ maxWidth: "85%", height: "auto" ,paddingLeft:'16%'}}
         />
       )} <br />
       <p style={{ fontStyle: "italic", fontSize: "1.5em",textAlign:'center'}}>

@@ -82,10 +82,9 @@ const AdminLandDetails = () => {
       console.error("Error soft deleting land:", error);
     }
   };
-
-  const filteredLands = lands.filter((land) =>
-    land._id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+const filteredLands = lands.filter((land) =>
+  land._id.trim().toLowerCase().includes(searchTerm.trim().toLowerCase())
+);
 
   // Calculate the total number of pages
   const totalPages = Math.ceil(filteredLands.length / itemsPerPage);
@@ -130,11 +129,11 @@ const AdminLandDetails = () => {
   };
 
   return (
-    <div className="admin-land-details">
+    <div className="admin-land-details table-responsive ">
       <h2 style={{ textAlign: "center", color: "#137077", marginTop: "7%" }}>
         All Land Details
       </h2>
-      <div className="search-bar-container" style={{ marginLeft: "67%" }}>
+      <div className="search-bar-container" style={{ marginLeft: "65%" }}>
         <button
           style={{
             backgroundColor: "#137077",
@@ -156,9 +155,9 @@ const AdminLandDetails = () => {
         </button>
         <a href="/admin/CreateLand">
           <button
+          className="btn"
             style={{
               backgroundColor: "#1E2C25",
-              color: "white",
               padding: "7px 35px",
               border: "none",
               cursor: "pointer",
@@ -171,7 +170,7 @@ const AdminLandDetails = () => {
         </a>
       </div>
       
-      <table className="land-details-table" style={{ overflow: "auto", maxHeight: "100px" }}>
+      <table className="land-details-table table table-bordered table-hover" style={{ overflow: "auto", maxHeight: "100px" ,marginLeft:'12%'}}>
         <thead>
           <tr>
             <th style={{ width: "1%" }}>Number</th>

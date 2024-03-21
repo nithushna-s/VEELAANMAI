@@ -30,8 +30,8 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div style={dashboardStyle}>
-      <div style={cardContainerStyle}>
+    <div style={dashboardStyle} class="container-fluid">
+      <div style={cardContainerStyle} >
         <div style={cardStyle}>
           <div style={columnStyle}>
             <i className="fas fa-users"></i>
@@ -74,8 +74,8 @@ const dashboardStyle = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  marginTop:'10%',
-  marginLeft:'25%',
+  marginTop:'13%',
+  marginLeft:'15%',
 
 };
 

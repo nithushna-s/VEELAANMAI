@@ -99,7 +99,13 @@ const UserDetails = () => {
         withCredentials: true,
       })
       .then((response) => {
-        setUsers([...users, response.data.user]);
+        const updatedUsers = [];
+        updatedUsers.push(response.data.user);
+        for (let i = 0; i < users.length; i++) {
+          updatedUsers.push(users[i]);
+        }
+        setUsers(updatedUsers);
+
         setIsCreateMode(false);
         setUpdateData({});
       })
@@ -111,7 +117,9 @@ const UserDetails = () => {
       className="user-details-container"
       style={{ fontFamily: "sans-serif", marginTop: "5%" }}
     >
-     <h2 style={{textAlign:'center',color:'#137077',marginTop:'8%'}}>All users Details</h2>
+      <h2 style={{ textAlign: "center", color: "#137077", marginTop: "8%" }}>
+        All users Details
+      </h2>
 
       <div className="search-bar-container" style={{ marginLeft: "46%" }}>
         <button
@@ -152,7 +160,10 @@ const UserDetails = () => {
         </button>
       </div>
       <div className="table-responsive">
-        <table className="user-table">
+        <table
+          className="user-table table table-bordered table-hover"
+          style={{ width: "75%", marginLeft: "13%" }}
+        >
           <thead>
             <tr>
               <th>Number</th>
@@ -241,7 +252,6 @@ const UserDetails = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-        
             <Button variant="success" onClick={handleUpdate}>
               Save Changes
             </Button>

@@ -51,14 +51,16 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      const { token, isAdmin } = response.data;
-
+  
+      const { token, role } = response.data; // Destructure role from response
+  
       localStorage.setItem("token", token);
-      localStorage.setItem("isAdmin", isAdmin);
-
+      localStorage.setItem("role", role); // Store role in localStorage
+  
       document.cookie = `token=${token}; max-age=3600; path=/`;
-      document.cookie = `isAdmin=${isAdmin}`;
-      if (isAdmin) {
+      document.cookie = `role=${role}`; // Set role in cookies
+  
+      if (role === "admin") {
         toast.success("Admin sign-in successful!");
         setTimeout(() => {
           navigate("/admin/Dashboard");
@@ -77,11 +79,13 @@ const Login = () => {
       setLoginSuccess(false); 
       setTimeout(() => {
         window.location.reload();
-        }, 3000);
+      }, 3000);
     } finally {
       setIsLoading(false);
     }
   };
+
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

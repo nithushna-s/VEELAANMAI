@@ -8,6 +8,8 @@ const PaymentForm = () => {
   const [cardholderName, setCardholderName] = useState("");
   const [landId, setLandId] = useState("");
   const [paymentAmount, setPaymentAmount] = useState(3500);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isCardholderNameValid, setIsCardholderNameValid] = useState(true);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -38,13 +40,18 @@ const PaymentForm = () => {
 
     if (!cardholderName.trim()) {
       toast.error("Please enter the cardholder name.");
+      setIsCardholderNameValid(false);
       return;
+    } else {
+      setIsCardholderNameValid(true);
     }
 
     if (!landId.trim()) {
       toast.error("Please enter the land ID.");
       return;
     }
+
+    setIsProcessing(true);
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
@@ -59,11 +66,12 @@ const PaymentForm = () => {
       toast.error(
         "Error creating payment method. Please check your card details."
       );
+      setIsProcessing(false);
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:7001/api/payment", {
+      const response = await axios.post("http://localhost:7001/api/payment",  {
         paymentMethodId: paymentMethod.id,
         cardholderName: cardholderName,
         paymentAmount: paymentAmount,
@@ -74,11 +82,12 @@ const PaymentForm = () => {
       toast.success("Payment successful and ad submitted!");
       setTimeout(() => {
         window.location.href = `/post-success/${landId}`;
-    }, 4000);
-    
+      }, 4000);
     } catch (error) {
       console.error("Error processing payment:", error.message);
       toast.error("Error processing payment. Please try again later.");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -98,15 +107,15 @@ const PaymentForm = () => {
             boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
             padding: "39px",
             borderRadius: "8px",
-            fontFamily: " fantasy",
+            fontFamily: "fantasy",
             marginRight: "20px",
             width: "50%",
-            height: "fit-content",
+            height: "35vh",
           }}
         >
           <h4 style={{ paddingTop: "7%" }}>
-            Your ad has been submitted for review and
-            <br /> requires a payment before it can be published.
+            Land details submitted. Payment required for posting. Information
+            will be verified before publishing.
           </h4>
           <h2>Listing Fee</h2>
           <br />
@@ -117,7 +126,7 @@ const PaymentForm = () => {
             <strong>Item Limit:</strong> 1 item per ad
           </h6>
           <h6>
-            <strong>Cost:</strong> 3500 LKR
+            <strong>Cost:</strong> {paymentAmount} LKR
           </h6>
         </div>
 
@@ -129,7 +138,7 @@ const PaymentForm = () => {
             borderRadius: "8px",
             fontFamily: "fantasy",
             width: "50%",
-            height: "fit-content",
+            height: "35vh",
           }}
         >
           <h2 style={{ color: "#137077" }}>Payment Form</h2>
@@ -141,13 +150,16 @@ const PaymentForm = () => {
               <input
                 type="text"
                 value={cardholderName}
-                onChange={(e) => setCardholderName(e.target.value)}
-                required
+                onChange={(e) => {
+                  setCardholderName(e.target.value);
+                  setIsCardholderNameValid(e.target.value.trim() && /^[a-zA-Z. ]{1,15}$/.test(e.target.value));
+                }}
+                
                 style={{
                   width: "100%",
                   height: "40px",
                   padding: "10px",
-                  border: "1px solid #ccc",
+                  border: `1px solid ${isCardholderNameValid ? '#ccc' : 'red'}`,
                   borderRadius: "5px",
                 }}
               />
@@ -160,7 +172,7 @@ const PaymentForm = () => {
                 type="text"
                 value={landId}
                 onChange={(e) => setLandId(e.target.value)}
-                required
+                
                 style={{
                   width: "100%",
                   height: "40px",
@@ -196,24 +208,25 @@ const PaymentForm = () => {
               <p style={{ display: "inline" }}>{paymentAmount} LKR</p>
             </span>
           </div>
-          <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 
           <button
             type="submit"
             className="btn"
             style={{
-              background: "#0A3C50",
               padding: "1% 7%",
               borderRadius: "10px",
               cursor: "pointer",
               marginLeft: "80%",
             }}
+            disabled={isProcessing} 
           >
-            {" "}
-            Pay
+            {isProcessing ? (
+               <i className="fa fa-spinner fa-spin"  ></i>
+            ) : (
+              "Pay"
+            )}
           </button>
         </form>
-        {/* <a href="https://buy.stripe.com/test_bIYg11cE5ddpaLSaEE">Pay</a> */}
       </div>
       <ToastContainer />
     </>

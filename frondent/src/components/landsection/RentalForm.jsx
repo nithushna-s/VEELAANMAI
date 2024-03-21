@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faCheck, faTimesCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const RentalForm = ({ landId, onCloseModal }) => {
   const [rentalData, setRentalData] = useState({
@@ -16,25 +16,31 @@ const RentalForm = ({ landId, onCloseModal }) => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitted(true);
+
+    const isFormValid = Object.keys(rentalData).every(inputName => isInputValid(inputName, rentalData[inputName]));
+
+    if (!isFormValid) {
+      toast.error('Please fill in all fields correctly.');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
       await axios.post(`http://localhost:7001/api/lands/${landId}/rental`, rentalData);
       toast.success('Rental form submitted successfully!');
-      setIsSuccess(true);
       setTimeout(() => {
         onCloseModal(); 
       }, 2000); 
       
     } catch (error) {
       console.error('Error submitting rental form:', error);
-      setIsSuccess(false);
+      toast.error('An error occurred while submitting the rental form.');
     } finally {
       setIsLoading(false);
     }
@@ -46,6 +52,27 @@ const RentalForm = ({ landId, onCloseModal }) => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const nameRegex = /^[a-zA-Z\s]{1,15}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  const phoneRegex = /^\d{9,10}$/;
+
+  const isInputValid = (inputName, inputValue) => {
+    switch (inputName) {
+      case 'startDate':
+      case 'endDate':
+        return dateRegex.test(inputValue);
+      case 'name':
+        return nameRegex.test(inputValue);
+      case 'email':
+        return emailRegex.test(inputValue);
+      case 'phoneNumber':
+        return phoneRegex.test(inputValue);
+      default:
+        return true;
+    }
   };
 
   return (
@@ -64,6 +91,7 @@ const RentalForm = ({ landId, onCloseModal }) => {
             name="startDate"
             value={rentalData.startDate}
             onChange={handleInputChange}
+            style={{ borderColor: isSubmitted && !isInputValid('startDate', rentalData.startDate) ? 'red' : 'black' }}
           />
         </label>
         <label>
@@ -73,15 +101,17 @@ const RentalForm = ({ landId, onCloseModal }) => {
             name="endDate"
             value={rentalData.endDate}
             onChange={handleInputChange}
+            style={{ borderColor: isSubmitted && !isInputValid('endDate', rentalData.endDate) ? 'red' : 'black' }}
           />
         </label>
         <label>
-          Name:
+        Full Name:
           <input
             type="text"
             name="name"
             value={rentalData.name}
             onChange={handleInputChange}
+            style={{ borderColor: isSubmitted && !isInputValid('name', rentalData.name) ? 'red' : 'black' }}
           />
         </label>
         <label>
@@ -100,6 +130,7 @@ const RentalForm = ({ landId, onCloseModal }) => {
             name="email"
             value={rentalData.email}
             onChange={handleInputChange}
+            style={{ borderColor: isSubmitted && !isInputValid('email', rentalData.email) ? 'red' : 'black' }}
           />
         </label>
         <label>
@@ -109,24 +140,16 @@ const RentalForm = ({ landId, onCloseModal }) => {
             name="phoneNumber"
             value={rentalData.phoneNumber}
             onChange={handleInputChange}
+            style={{ borderColor: isSubmitted && !isInputValid('phoneNumber', rentalData.phoneNumber) ? 'red' : 'black' }}
           />
         </label>
-        {!isSubmitted && (
-          <button type="submit" className="btn" style={{ background:'#0A3C50'}}>
-            Submit 
-          </button>
-        )}
-        {isSubmitted && (
-          <>
-          <button type="submit" className="btn" style={{ background:'#0A3C50'}}>
-            {isLoading && <FontAwesomeIcon icon={faSpinner} spin />}
-            {!isLoading && isSuccess && <FontAwesomeIcon icon={faCheck} style={{ color:'green'}}/>}
-            {!isLoading && !isSuccess && <FontAwesomeIcon icon={faTimesCircle} style={{color:'red'}}/>}
-            
-            Submit 
-          </button>
-          </>
-        )}
+        <button 
+          type="submit" 
+          className="btn" 
+          disabled={isLoading} 
+        >
+          {isLoading ? <FontAwesomeIcon icon={faSpinner} spin /> : 'Submit'}
+        </button>
       </form>
       <ToastContainer />
     </>

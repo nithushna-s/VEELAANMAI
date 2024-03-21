@@ -1,5 +1,4 @@
 import React, { useState ,useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import favicon from '../Assets/image/logo.png';
@@ -9,7 +8,6 @@ const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [activeLink, setActiveLink] = useState('');
-  const navigate = useNavigate();
 
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
@@ -167,7 +165,7 @@ const Navbar = () => {
             onMouseLeave={handleLinkLeave}
           >
             <a href="/admin/LandDetails" style={activeLink === 'contact' ? { ...linkStyle, ...hoverLinkStyle } : linkStyle}>
-              LandPostDetails
+              Land-Details
             </a>
           </li>
           <li
@@ -176,7 +174,7 @@ const Navbar = () => {
             onMouseLeave={handleLinkLeave}
           >
             <a href="/admin/LandRentDetails" style={activeLink === 'login' ? { ...linkStyle, ...hoverLinkStyle } : linkStyle}>
-              LandRentDetails
+              Land-Rent-List
             </a>
           </li>
           <li
@@ -185,7 +183,7 @@ const Navbar = () => {
             onMouseLeave={handleLinkLeave}
           >
             <a href="/admin/LandSalesList" style={activeLink === 'AdminSalesList' ? { ...linkStyle, ...hoverLinkStyle } : linkStyle}>
-              LandSalesList
+              Land-Sales-List
             </a>
           </li>
           
@@ -195,7 +193,7 @@ const Navbar = () => {
             onMouseLeave={handleLinkLeave}
           >
             <a href="/admin/PaymentsList" style={activeLink === 'SubscriptionsList' ? { ...linkStyle, ...hoverLinkStyle } : linkStyle}>
-            PaymentList
+            Payment-List
             </a>
           </li>
           <li>

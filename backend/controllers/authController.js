@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 
 const signup = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, isAdmin } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
 
@@ -13,20 +13,18 @@ const signup = async (req, res) => {
       return res.status(400).json({ error: "User already registered" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = new User({
       firstName,
       lastName,
       email,
-      password: hashedPassword,
-      isAdmin,
+      password,
+      role: "user", 
     });
     await user.save();
 
     // Create JWT token
     const token = jwt.sign(
-      { userId: user._id, email: user.email, isAdmin: user.isAdmin },
+      { userId: user._id, email: user.email, role: user.role }, 
       secretKey,
       { expiresIn: "1h" }
     );
@@ -41,24 +39,19 @@ const signup = async (req, res) => {
   }
 };
 
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
 
-    if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const token = jwt.sign(
-      { userId: user._id, email: user.email, isAdmin: user.isAdmin },
+      { userId: user._id, email: user.email, role: user.role }, // Include role in token
       secretKey,
       { expiresIn: "1h" }
     );
@@ -67,16 +60,15 @@ const login = async (req, res) => {
 
     res.json({
       token,
-      isAdmin: user.isAdmin,
-      message: user.isAdmin
-        ? "Admin login successful"
-        : "User login successful",
+      role: user.role, // Send role in response
+      message: user.role === "admin" ? "Admin login successful" : "User login successful",
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 const logout = async (req, res) => {
   try {

@@ -31,7 +31,7 @@ const submitSalesForm = async (req, res) => {
 
     // Email options
     const mailOptions = {
-      from: "sivarasanithushna@gmail.com",
+      from: process.env.GMAIL_USER,
       to: email,
       subject: "Land Sales Form Submission",
       text: `Name: ${name} - Success sending your request. Will be in contact soon`,

@@ -59,14 +59,14 @@ const AgrilandDetail = () => {
       <div className="agriland-detail-container" style={{ fontFamily: 'Raleway, fantasy', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
         <h2 style={{ color: '#137077', textAlign: 'center' }}>Land Details</h2><br/>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <div style={{ border: '1px solid #ccc', borderRadius: '8px', padding: '10px', marginBottom:'15%', boxShadow: '0 4px 8px rgba(0,0,0,0.1)',height:'60%'}}>
+          <div style={{ border: '1px solid #ccc', borderRadius: '8px', padding: '10px', marginBottom:'15%', boxShadow: '0 4px 8px rgba(0,0,0,0.1)',height:'60%',width:'30vw'}}>
             {land.image && (
-              <div className="img-magnifier-container">
+              <div className="img-magnifier-container" >
                 <img
                   id="land-image"
                   src={land.image.url}
                   alt={`Land Image of ${land.landType}`}
-                  style={{ height: '42vh', width: 'auto' }}
+                  style={{ height: '42vh', width: '28vw' }}
                 />
               </div>
             )}

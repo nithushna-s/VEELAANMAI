@@ -15,6 +15,7 @@ const AgrilandsSection = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [displayedItems, setDisplayedItems] = useState(6);
   const [filterValues, setFilterValues] = useState({
     cropTypes: [],
     rentOrLeaseOptions: [],
@@ -71,6 +72,10 @@ const AgrilandsSection = () => {
     }));
   };
 
+  const handleShowMore = () => {
+    setDisplayedItems(displayedItems + 6);
+  };
+
   return (
     <>
       <Navbar />
@@ -92,7 +97,6 @@ const AgrilandsSection = () => {
           Discover Cultivation Lands
         </h2>
         <br /> <br />
-        {/* Filter Form */}
         <div className="filter-form">
           <label htmlFor="landType">Crop Types:</label>
           <select
@@ -160,18 +164,18 @@ const AgrilandsSection = () => {
             </p>
           )}
 
-          {agrilands.map((land) => (
+          {agrilands.slice(0, displayedItems).map((land) => (
             <div key={land._id} className="col-md-4 mb-4">
               <div
                 className="card"
-                style={{ maxHeight: "600px", objectFit: "cover", width: "90%" }}
+                style={{ maxHeight: "600px", objectFit: "cover", width: "100%", boxShadow: "0 2px 4px 0 #137077", transition: "0.2s", }}
               >
                 <Link
                   to={`/agriland/${land._id}`}
                   style={{ textDecoration: "none" }}
                 >
                   {land.image && (
-                    <div className="image-container">
+                    <div className="image-container" style={{height:'20vh'}}>
                       <img
                         src={land.image.url}
                         className="card-img-top"
@@ -196,7 +200,7 @@ const AgrilandsSection = () => {
                     </div>
                   )}
                 </Link>
-                <div className="card-body">
+                <div className="card-body" style={{height:'30vh'}}>
                   <i
                     style={{
                       fontStyle: "italic",
@@ -217,6 +221,13 @@ const AgrilandsSection = () => {
             </div>
           ))}
         </div>
+        {agrilands.length > displayedItems && (
+          <div className="text-center mt-4 p-5">
+            <button className="btn btn-primary" onClick={handleShowMore}>
+              Show More
+            </button>
+          </div>
+        )}
       </div>
       <Footernext />
     </>

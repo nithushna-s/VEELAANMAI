@@ -39,6 +39,8 @@ const landSchema = new mongoose.Schema(
       enum: ["pending", "paid"],
       default: "pending",
     },
+    index : { type: Number, default: 1 }, 
+  
     timestamps: {
       type: String,
       default: () => moment().format("YYYY-MM-DD HH.mmA"),
@@ -49,6 +51,12 @@ const landSchema = new mongoose.Schema(
   }
 );
 
+landSchema.virtual('indexWithLeadingZero')
+  .get(function() {
+    return this.index;
+});
+
 const Land = mongoose.model("Lands", landSchema);
+
 
 module.exports = Land;
