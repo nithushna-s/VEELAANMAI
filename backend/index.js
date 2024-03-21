@@ -30,6 +30,9 @@ app.use("/api", routes, pay);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 
 app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message });
