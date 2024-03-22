@@ -23,16 +23,16 @@ const app = express();
 const port = process.env.PORT || 7001;
 app.use(cookieParser());
 app.use(loggerMiddleware);
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: "https://veelaanmai-frondent.vercel.app" }));
 app.use(express.json());
 
+// http://localhost:3000
 app.use("/api", routes, pay);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+
+
 
 app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message });

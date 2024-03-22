@@ -30,7 +30,7 @@ const signup = async (req, res) => {
     );
 
     // Set token as a cookie
-    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
+    res.cookie("token", token, {  maxAge: 3600000 });
 
     res.json({ message: "Signup successful", token });
   } catch (error) {
@@ -56,7 +56,7 @@ const login = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
+    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 ,sameSite:'None'});
 
     res.json({
       token,
