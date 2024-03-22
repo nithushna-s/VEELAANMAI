@@ -57,7 +57,7 @@ const Login = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("role", role); // Store role in localStorage
   
-      document.cookie = `token=${token}; max-age=3600; path=/ ;sameSite=None`;
+      document.cookie = `token=${token}; max-age=3600; path=/ ;`;
       document.cookie = `role=${role}`; // Set role in cookies
   
       if (role === "admin") {
