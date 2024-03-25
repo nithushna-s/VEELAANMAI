@@ -8,7 +8,7 @@ const PaymentDetails = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await axios.get("http://localhost:7001/api/bill", {
+        const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/bill`, {
           withCredentials: true,
         });
         if (Array.isArray(response.data.invoices)) {

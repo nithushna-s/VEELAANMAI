@@ -44,7 +44,7 @@ const PostAdForm = () => {
         formDataToSend.append(key, formData[key]);
       }
   
-      const response = await axios.post('http://localhost:7001/api/lands', formDataToSend);
+      const response = await axios.post(`${process.env.REACT_APP_SERVER}/api/lands`, formDataToSend);
   
       if (response.status === 201) {
         const landId = response.data._id;
@@ -91,7 +91,6 @@ const PostAdForm = () => {
           id="regForm"
           encType="multipart/form-data"
           onSubmit={handleSubmit}
-          action="http://localhost:7001/api/lands"
           method="POST"
           className="p-4 rounded shadow-lg"
        style={{ maxWidth: '70vw', border: '1px solid #ccc', }} 

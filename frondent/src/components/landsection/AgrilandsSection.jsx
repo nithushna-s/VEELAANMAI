@@ -26,7 +26,7 @@ const AgrilandsSection = () => {
         setLoading(true);
         setError(null);
 
-        const response = await axios.get("http://localhost:7001/api/lands", {
+        const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/lands`, {
           params: filters,
         });
 
@@ -53,7 +53,7 @@ const AgrilandsSection = () => {
     const fetchFilterValues = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:7001/api/filter-values"
+          `${process.env.REACT_APP_SERVER}/api/filter-values`
         );
         const { cropTypes, rentOrLeaseOptions } = response.data;
         setFilterValues({ cropTypes, rentOrLeaseOptions });

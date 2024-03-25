@@ -36,7 +36,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:7001/api/logout");
+      await axios.post(`${process.env.REACT_APP_SERVER}/api/logout`);
       localStorage.removeItem("token");
       localStorage.removeItem("isAdmin");
       document.cookie = "token=;max-age=0;path=/";

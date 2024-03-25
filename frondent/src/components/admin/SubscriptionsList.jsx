@@ -7,7 +7,7 @@ const SubscriptionList = () => {
   useEffect(() => {
     const fetchSubscriptions = async () => {
       try {
-        const response = await axios.get("http://localhost:7001/api/bill");
+        const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/bill`);
         setSubscriptions(response.data);
       } catch (error) {
         console.error("Error fetching subscriptions:", error);

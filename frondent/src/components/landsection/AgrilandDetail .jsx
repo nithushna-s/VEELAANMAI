@@ -16,7 +16,7 @@ const AgrilandDetail = () => {
   useEffect(() => {
     const fetchLandDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:7001/api/lands/${id}`);
+        const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/lands/${id}`);
         setLand(response.data);
       } catch (error) {
         console.error('Error fetching land details:', error);

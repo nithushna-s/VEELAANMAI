@@ -44,7 +44,7 @@ const PostAdForm = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:7001/api/lands",
+        `${process.env.REACT_APP_SERVER}/api/lands`,
         formDataToSend
       );
 
@@ -96,7 +96,7 @@ const PostAdForm = () => {
           id="regForm"
           encType="multipart/form-data"
           onSubmit={handleSubmit}
-          action="http://localhost:7001/api/lands"
+          action="`${process.env.REACT_APP_SERVER}/api/lands"
           method="POST"
           className="p-4 rounded shadow-lg"
           style={{ maxWidth: "70vw", border: "1px solid #ccc" }}

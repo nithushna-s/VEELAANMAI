@@ -37,7 +37,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:7001/api/logout');
+      await axios.post(`${process.env.REACT_APP_SERVER}/api/logout`);
             document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       localStorage.removeItem('token'); 
       toast.success('Logout successful!');

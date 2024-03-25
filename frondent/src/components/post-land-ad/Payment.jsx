@@ -71,7 +71,7 @@ const PaymentForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:7001/api/payment",  {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER}/api/payment`,  {
         paymentMethodId: paymentMethod.id,
         cardholderName: cardholderName,
         paymentAmount: paymentAmount,

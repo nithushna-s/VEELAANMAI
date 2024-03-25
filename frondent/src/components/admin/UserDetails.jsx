@@ -95,7 +95,7 @@ const UserDetails = () => {
 
   const handleCreateUser = () => {
     axios
-      .post("http://localhost:7001/api/admin/signup", updateData, {
+      .post(`${process.env.REACT_APP_SERVER}/api/admin/signup`, updateData, {
         withCredentials: true,
       })
       .then((response) => {

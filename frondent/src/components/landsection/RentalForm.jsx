@@ -32,7 +32,7 @@ const RentalForm = ({ landId, onCloseModal }) => {
     setIsLoading(true);
 
     try {
-      await axios.post(`http://localhost:7001/api/lands/${landId}/rental`, rentalData);
+      await axios.post(`${process.env.REACT_APP_SERVER}/api/lands/${landId}/rental`, rentalData);
       toast.success('Rental form submitted successfully!');
       setTimeout(() => {
         onCloseModal(); 

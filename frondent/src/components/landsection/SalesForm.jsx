@@ -30,7 +30,7 @@ const SalesForm = ({ landId, onCloseModal }) => {
     setIsLoading(true);
 
     try {
-      await axios.post(`http://localhost:7001/api/lands/${landId}/sales`, salesData);
+      await axios.post(`${process.env.REACT_APP_SERVER}/api/lands/${landId}/sales`, salesData);
       toast.success('Sales form submitted successfully!');
       setTimeout(() => {
         onCloseModal();

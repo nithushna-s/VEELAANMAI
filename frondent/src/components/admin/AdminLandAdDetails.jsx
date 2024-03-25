@@ -70,7 +70,7 @@ const AdminLandDetails = () => {
   const handleDelete = async (landId) => {
     try {
       const response = await axios.patch(
-        `http://localhost:7001/api/lands/${landId}`,
+        `${process.env.REACT_APP_SERVER}/api/lands/${landId}`,
         { withCredentials: true }
       );
       const updatedLands = lands.map((l) =>

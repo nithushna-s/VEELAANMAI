@@ -35,7 +35,7 @@ const Login = () => {
     setIsPasswordValid(isPasswordValid);
     return isEmailValid && isPasswordValid;
   };
-
+console.log(process.env.REACT_APP_SERVER)
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -44,7 +44,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:7001/api/login",
+        `${process.env.REACT_APP_SERVER}/api/login`,
         {
           email,
           password,

@@ -60,7 +60,7 @@ const ContactForm = () => {
     setSubmitIcon(faSpinner); 
 
     try {
-      const response = await fetch("http://localhost:7001/api/send-email", {
+      const response = await fetch(`${process.env.REACT_APP_SERVER}/api/send-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

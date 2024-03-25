@@ -10,16 +10,16 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newPostsResponse = await axios.get('http://localhost:7001/api/lands', { withCredentials: true, params: { isNew: true } });
+        const newPostsResponse = await axios.get(`${process.env.REACT_APP_SERVER}/api/lands`, { withCredentials: true, params: { isNew: true } });
         setNewPostsCount(newPostsResponse.data.length);
 
-        const newUsersResponse = await axios.get('http://localhost:7001/api/users', { withCredentials: true, params: { isNew: true } });
+        const newUsersResponse = await axios.get(`${process.env.REACT_APP_SERVER}/api/users`, { withCredentials: true, params: { isNew: true } });
         setNewUsersCount(newUsersResponse.data.length);
 
-        const newRequestsResponse = await axios.get('http://localhost:7001/api/admin/rental-details', { withCredentials: true, params: { isNew: true } });
+        const newRequestsResponse = await axios.get(`${process.env.REACT_APP_SERVER}/api/admin/rental-details`, { withCredentials: true, params: { isNew: true } });
         setNewRequestsCount(newRequestsResponse.data.length);
 
-        const newSalesResponse = await axios.get('http://localhost:7001/api/admin/sales-details', { withCredentials: true });
+        const newSalesResponse = await axios.get(`${process.env.REACT_APP_SERVER}/api/admin/sales-details`, { withCredentials: true });
         setNewSalesCount(newSalesResponse.data.length); 
       } catch (error) {
         console.error('Error fetching data:', error);
