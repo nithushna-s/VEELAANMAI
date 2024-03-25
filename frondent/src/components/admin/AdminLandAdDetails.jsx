@@ -17,7 +17,7 @@ const AdminLandDetails = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:7001/api/landsadmin", { withCredentials: true })
+      .get(`${process.env.REACT_APP_SERVER}/api/landsadmin`, { withCredentials: true })
       .then((response) => {
         const reversedLands = response.data.reverse();
         setLands(reversedLands);
@@ -50,7 +50,7 @@ const AdminLandDetails = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:7001/api/lands/${selectedLand._id}`,
+        `${process.env.REACT_APP_SERVER}/api/lands/${selectedLand._id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

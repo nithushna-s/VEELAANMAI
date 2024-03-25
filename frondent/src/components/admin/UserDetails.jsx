@@ -18,7 +18,7 @@ const UserDetails = () => {
   useEffect(() => {
     // Fetch all users when the component mounts
     axios
-      .get("http://localhost:7001/api/users", { withCredentials: true })
+      .get(`${process.env.REACT_APP_SERVER}/api/users`, { withCredentials: true })
 
       .then((response) => {
         const reversedUsers = response.data.reverse();
@@ -46,7 +46,7 @@ const UserDetails = () => {
 
     axios
       .put(
-        `http://localhost:7001/api/users/${selectedUser._id}`,
+        `${process.env.REACT_APP_SERVER}/api/users/${selectedUser._id}`,
         updatedFields,
         { withCredentials: true }
       )
@@ -64,7 +64,7 @@ const UserDetails = () => {
 
   const handleDelete = (userId) => {
     axios
-      .delete(`http://localhost:7001/api/users/${userId}`, {
+      .delete(`${process.env.REACT_APP_SERVER}/api/users/${userId}`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -77,7 +77,7 @@ const UserDetails = () => {
   const handleSearch = () => {
     // Implement the logic to fetch a user by ID using the search term (userId)
     axios
-      .get(`http://localhost:7001/api/users/${searchTerm}`, {
+      .get(`${process.env.REACT_APP_SERVER}/api/users/${searchTerm}`, {
         withCredentials: true,
       })
       .then((response) => {
