@@ -23,7 +23,7 @@ const app = express();
 const port = process.env.PORT || 7001;
 app.use(cookieParser());
 app.use(loggerMiddleware);
-app.use(cors({ credentials: true, origin: "https://veelaanmai-frondent.vercel.app" }));
+app.use(cors({ credentials: true, origin: "https://veelaanmai.vercel.app" }));
 app.use(express.json());
 
 // http://localhost:3000
