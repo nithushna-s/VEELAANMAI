@@ -49,7 +49,7 @@ console.log(process.env.REACT_APP_SERVER)
           email,
           password,
         },
-        { withCredentials: true }
+        { withCredentials: true ,secure:true, sameSite:"None"}
       );
   
       const { token, role } = response.data; // Destructure role from response
